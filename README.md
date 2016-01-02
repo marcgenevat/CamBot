@@ -17,4 +17,4 @@ This will launch ros node that publish images from webcam
 
 $ roslaunch cambot_img_processor cambot_img_processor.launch
 
-This will launch ros node that get these images to detect faces or balls
+This will launch both launcher files , ros node that publish images from webcam and ros node that get these images to detect faces or balls
