@@ -1,5 +1,12 @@
 #include "cambot_img_processor_node.h"
 
+#include "cv.h"
+
+
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include "opencv2/objdetect/objdetect.hpp"
+
 RosImgProcessorNode::RosImgProcessorNode() : 
     nh_(ros::this_node::getName()),
     img_tp_(nh_)
@@ -22,25 +29,59 @@ RosImgProcessorNode::~RosImgProcessorNode()
 
 void RosImgProcessorNode::process()
 {
-    cv::Rect_<int> box;
+    //cv::Rect_<int> box;
+    //Initialize face detector object
+    cv::CascadeClassifier face_detect;
+    face_detect.load("../data/haarcascades/haarcascade_frontalface_default.xml");
+    //face_detect.load("../data/lbpcascades/lbpcascade_frontalcatface.xml"); //This one works worse than haarcascade_frontalface_default.xml
+    //face_detect.load("../data/lbpcascades/lbpcascade_frontalface.xml"); //This one is FASTER than haarcascade and has less noise
+    //face_detect.load("../data/lbpcascades/lbpcascade_profileface.xml"); //This is for profile faces
+
     
+    cv::Mat frame_gray; //Used when convert image to gray
+
     //check if new image is there
     if ( cv_img_ptr_in_ != nullptr )
     {
-        //copy the input image to the out one
-        cv_img_out_.image = cv_img_ptr_in_->image;
-        
-        //sets the bounding box of the detection jj
-        box.x = (cv_img_ptr_in_->image.cols/2)-10;
-        box.y = (cv_img_ptr_in_->image.rows/2)-10;
-        box.width = 20;
-        box.height = 20;
+            //copy the input image to the out one
+            cv_img_out_.image = cv_img_ptr_in_->image;
 
-        //mark a rectangle in the center: http://docs.opencv.org/2.4.11/modules/core/doc/drawing_functions.html#rectangle
-        cv::rectangle(cv_img_out_.image, box, cv::Scalar(0,255,255), 3);
-        
-        //Mark an ellipse: http://docs.opencv.org/2.4.11/modules/core/doc/drawing_functions.html#ellipse
-        cv::ellipse(cv_img_out_.image,cv::Point(50,50),cv::Size(20,10),27,0,360,cv::Scalar(0,0,255),2);
+            // Convert the current frame to grayscale:
+            cv::cvtColor(cv_img_ptr_in_->image, frame_gray, CV_BGR2GRAY);
+            cv::equalizeHist(frame_gray,frame_gray); //This algorithm normalizes the brightness and increases the contrast of the image
+
+            //std::cout <<  "encoding: " << cv_img_ptr_in_->encoding << std::endl ;
+
+            //Detect faces as rectangles
+            std::vector<cv::Rect> faces;
+            face_detect.detectMultiScale(frame_gray, faces);
+
+            for (int i = 0; i < faces.size(); i++)
+            {
+
+                // Process face by face:
+                cv::Rect face_i = faces[i];
+
+                // Write all we've found out to the original image!
+                // First of all draw a green rectangle around the detected face:
+                cv::rectangle(cv_img_out_.image, face_i, cv::Scalar(0, 255,0), 1);
+
+            }
+
+
+          /*
+            //sets the bounding box of the detection jj
+            box.x = (cv_img_ptr_in_->image.cols/2)-10;
+            box.y = (cv_img_ptr_in_->image.rows/2)-10;
+            box.width = 20;
+            box.height = 20;
+
+            //mark a rectangle in the center: http://docs.opencv.org/2.4.11/modules/core/doc/drawing_functions.html#rectangle
+            cv::rectangle(cv_img_out_.image, box, cv::Scalar(0,255,255), 3);
+
+            //Mark an ellipse: http://docs.opencv.org/2.4.11/modules/core/doc/drawing_functions.html#ellipse
+            cv::ellipse(cv_img_out_.image,cv::Point(50,50),cv::Size(20,10),27,0,360,cv::Scalar(0,0,255),2);
+         */
     }
     
     //reset input image
