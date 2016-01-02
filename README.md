@@ -9,9 +9,11 @@ Finally this webcamb robot is able to follow the faces or ball.
 
 #Instructions
 
-$ roslaunch cambot_img_processor usb_camera.launch 
+$ roslaunch cambot_img_processor usb_camera.launch
+
 This will launch ros node that publish images from webcam
 
 
 $ roslaunch cambot_img_processor cambot_img_processor.launch
+
 This will launch ros node that get these images to detect faces or balls
