@@ -32,11 +32,15 @@ void RosImgProcessorNode::process()
     //cv::Rect_<int> box;
     //Initialize face detector object
     cv::CascadeClassifier face_detect;
-    face_detect.load("../data/haarcascades/haarcascade_frontalface_default.xml");
+
+    cv::String face_cascade_name = "/home/xavier/catkin_ws/src/CamBot/cambot_img_processor/data/haarcascades/haarcascade_frontalface_default.xml";
+
+    //face_detect.load("../data/haarcascades/haarcascade_frontalface_default.xml");
     //face_detect.load("../data/lbpcascades/lbpcascade_frontalcatface.xml"); //This one works worse than haarcascade_frontalface_default.xml
     //face_detect.load("../data/lbpcascades/lbpcascade_frontalface.xml"); //This one is FASTER than haarcascade and has less noise
     //face_detect.load("../data/lbpcascades/lbpcascade_profileface.xml"); //This is for profile faces
 
+    if( !face_detect.load( face_cascade_name ) ){ printf("--(!)Error loading\n"); return; };
     
     cv::Mat frame_gray; //Used when convert image to gray
 
