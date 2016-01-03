@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<package>
+  <name>cambot_img_processor</name>
+  <version>0.0.0</version>
+  <description>
+	Ros node to get an image from webcam and publishing as a Ros Node. 
+	Links to OpenCV and ROS wrapped.
+  </description>
+
+  <!-- One maintainer tag required, multiple allowed, one person per tag --> 
+  <maintainer email="xavier@inegocis.com">Xavier Blasco</maintainer>
+
+  <!-- One license tag required, multiple allowed, one license per tag -->
+  <license>BSD</license>
+
+  <!-- Url tags are optional, but mutiple are allowed, one per tag -->
+  <url type="website">https://github.com/xavierblasco/CamBot</url>
+
+
+  <!-- Author tags are optional, mutiple are allowed, one per tag -->
+  <author email="xavier@inegocis.com">Xavier Blasco</author>
+
+
+  <!-- The *_depend tags are used to specify dependencies -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>image_transport</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <run_depend>cv_bridge</run_depend>
+  <run_depend>image_transport</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>std_msgs</run_depend>
+
+</package>
