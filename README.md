@@ -18,3 +18,8 @@ This will launch ros node that publish images from webcam
 $ roslaunch cambot_img_processor cambot_img_processor.launch
 
 This will launch both launcher files , ros node that publish images from webcam and ros node that get these images to detect faces or balls
+
+
+In order to visualize the robot model with RVIZ:
+
+$ roslaunch cambot_description display.launch
