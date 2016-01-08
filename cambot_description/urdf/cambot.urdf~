@@ -8,12 +8,13 @@
 	<joint name = "cambot_world" type = "continuous">
 		<parent link = "world" />
 		<child link = "base_link" />
-		<origin xyz = "0 0 0" rpy = "-1.57 -1.57 0"/>
+		<origin xyz = "0 0 0.5" rpy = "0 0 0"/>
+		<axis xyz = "0 0 1" />
 	</joint>
 		
 	<link name = "base_link">
 		<visual>
-			<origin xyz = "0 0 0.005" rpy = "0.45 0 -1.57" />
+			<origin xyz = "0 0 -0.5" rpy = "1.57 0 1.57" />
 			<geometry>
 				<mesh filename = "package://cambot_description/meshes/cambot.stl" />
 			</geometry>
@@ -23,38 +24,19 @@
 		</visual>
 	</link>
 
-	<joint name = "base_to_servo" type = "fixed">
+	<joint name = "base_to_camera" type = "continuous">
 		<parent link = "base_link" />
-		<child link = "servo_link" />
-		<origin xyz = ".078 .03 -.025" rpy = "-1.57 3.14 -1.57" />
-		<axis xyz = "0 0 0" />
-	</joint>
-
-	<link name = "servo_link">
-		<visual>
-			<origin xyz = "0 -0.018 0" rpy = "0 0 0" />
-			<geometry>
-				<mesh filename = "package://cambot_description/meshes/servo2.stl" />
-			</geometry>
-			<material name = "cambot/black">
-				<color rgba = "0.0 0.0 0.0 1.0" />
-			</material>
-		</visual>
-	</link>
-
-	<joint name = "servo_to_camera" type = "continuous">
-		<parent link = "servo_link" />
 		<child link = "camera_link" />
-		<origin xyz = ".01 .01 0" rpy = "0 0 0" />
-		<axis xyz = "0 1 0" />
-		<safety_controller k_velocity="10" k_position="15" soft_lower_limit="-1.0" soft_upper_limit="0.5" />
+		<origin xyz = "0.3 -0.15 0.5" rpy = "-1.57 0 0" />
+		<axis xyz = "0 0 1" />
+		<safety_controller k_velocity="10" k_position="15" soft_lower_limit="-0.3" soft_upper_limit="0.5" />
 	</joint>
 
 	<link name = "camera_link">
 		<visual>
-			<origin xyz = "0.005 0.02 0" rpy = "0 1.57 0" />
+			<origin xyz = "0 0 0" rpy = "0 -1.57 3.14" />
 			<geometry>
-				<sphere radius = "0.015" />
+				<mesh filename = "package://cambot_description/meshes/camera_conjunt.stl" />
 			</geometry>
 			<material name = "cambot/gray">
 				<color rgba = "0.2 0.2 0.2 1.0" />
