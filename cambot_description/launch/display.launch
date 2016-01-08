@@ -3,7 +3,7 @@
   <!-- Load your robot -->
   <arg name="robot" default="cambot"/>
 
-  <param name="robot_description" textfile="$(find cambot_description)/urdf/cambotV3.urdf" />	
+  <param name="robot_description" textfile="$(find cambot_description)/urdf/cambot.urdf" />	
 
 	<!-- Send gui-ed joint values -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">

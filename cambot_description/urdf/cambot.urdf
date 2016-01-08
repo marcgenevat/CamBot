@@ -1,47 +1,130 @@
-<!-- description of the robot -->
+<!-- description of the CamBot robot, a robotics project for the UVic-UCC master in robotics first term -->
 <robot name = "cambot">
-	
-	<!-- Robot -->
-	
-	<link name = "world" />
-	
-	<joint name = "cambot_world" type = "continuous">
-		<parent link = "world" />
-		<child link = "base_link" />
-		<origin xyz = "0 0 0.5" rpy = "0 0 0"/>
-		<axis xyz = "0 0 1" />
+
+	<!-- BASE-FOOTPRINT -->
+	<!-- base_footprint is a fictitious link(frame) that is on the ground right below base_link origin, navigation stack depends on this frame -->
+	<link name = "base_footprint"/>
+
+	<joint name = "base_footprint_joint" type = "fixed">
+		<parent link = "base_footprint"/>
+		<child link = "base_link"/>
+		<origin xyz = "0 0 0" rpy = "0 0 0"/>
 	</joint>
-		
+
+	<!-- BASE-LINK -->
+    <!--Actual body/chassis of the robot-->
 	<link name = "base_link">
 		<visual>
-			<origin xyz = "0 0 -0.5" rpy = "1.57 0 1.57" />
+			<origin xyz = "0 0 0.12" rpy = "1.57 0 3.14"/>
 			<geometry>
-				<mesh filename = "package://cambot_description/meshes/cambot.stl" />
+				<mesh filename = "package://cambot_description/meshes/cambot_base.stl"/>
 			</geometry>
 			<material name = "cambot/orange">
-				<color rgba = "1.0 0.5 0.0 1.0" />
+				<color rgba = "1.0 0.5 0.0 1.0"/>
 			</material>
 		</visual>
 	</link>
 
-	<!--May be revolute-->
-	<joint name = "base_to_camera" type = "continuous">
-		<parent link = "base_link" />
-		<child link = "camera_link" />
-		<origin xyz = "0.3 -0.15 0.5" rpy = "-1.57 0 0" />
-		<axis xyz = "0 0 1" />
-		<safety_controller k_velocity="10" k_position="15" soft_lower_limit="-0.3" soft_upper_limit="0.5" />
+	<joint name = "base_to_right_wheel" type = "continuous">
+		<parent link = "base_link"/>
+		<child link = "right_wheel_link"/>
+		<origin xyz = "0.21 -0.50 0.28" rpy = "1.57 0 0"/>
+		<axis xyz = "0 0 1"/>
 	</joint>
 
-	<link name = "camera_link">
+	<joint name = "base_to_left_wheel" type = "continuous">
+		<parent link = "base_link"/>
+		<child link = "left_wheel_link"/>
+		<origin xyz = "0.21 0.50 0.28" rpy = "-1.57 0 0"/>
+		<axis xyz = "0 0 1"/>
+	</joint>
+
+	<joint name = "base_to_servo" type = "fixed">
+		<parent link = "base_link" />
+		<child link = "servo_link" />
+		<origin xyz = "0.2 -0.21 1.035" rpy = "-1.57 0 0"/>
+	</joint>	
+
+	<!-- WHEEL-LINKS -->
+    <!--Actual wheels of the robot-->
+	<link name = "left_wheel_link">
+		<visual>
+			<origin xyz = "0 0 0.05" rpy = "0 -1.57 0" />
+			<geometry>
+				<mesh filename = "package://cambot_description/meshes/cambot_wheel.stl" />
+			</geometry>
+			<material name = "cambot/red">
+				<color rgba = "1.0 0.0 0.0 1.0" />
+			</material>
+		</visual>
+	</link>
+
+	<link name = "right_wheel_link">
+		<visual>
+			<origin xyz = "0 0 0.05" rpy = "0 -1.57 0" />
+			<geometry>
+				<mesh filename = "package://cambot_description/meshes/cambot_wheel.stl" />
+			</geometry>
+			<material name = "cambot/red">
+				<color rgba = "1.0 0.0 0.0 1.0" />
+			</material>
+		</visual>
+	</link>
+
+	<!-- SERVO-LINK -->
+    <!--Actual servo of the robot responsible of the movement of the camera-->
+	<link name = "servo_link">
+		<visual>
+			<origin xyz = "0 0 0" rpy = "0 0 3.14" />
+			<geometry>
+				<mesh filename = "package://cambot_description/meshes/cambot_servo.stl" />
+			</geometry>
+			<material name = "cambot/black">
+				<color rgba = "0.0 0.0 0.0 1.0" />
+			</material>
+		</visual>
+	</link>
+
+	<joint name = "servo_to_camera_support" type = "revolute">
+		<limit effort="10.0" lower="-0.4" upper="0.4" velocity="0.5"/>
+		<parent link = "servo_link" />
+		<child link = "camera_support_link" />
+		<origin xyz = "0 0 0" rpy = "0 0 0" />
+		<axis xyz = "0 0 1" />
+	</joint>
+
+	<!-- CAMERA-SUPPORT-LINK -->
+	<!-- Actual camera support coupled to the servo -->
+	<link name = "camera_support_link">
 		<visual>
 			<origin xyz = "0 0 0" rpy = "0 -1.57 3.14" />
 			<geometry>
-				<mesh filename = "package://cambot_description/meshes/camera_conjunt.stl" />
+				<mesh filename = "package://cambot_description/meshes/cambot_camera_support.stl" />
 			</geometry>
-			<material name = "cambot/gray">
-				<color rgba = "0.2 0.2 0.2 1.0" />
+			<material name = "cambot/blue">
+				<color rgba = "0.0 0.0 255.0 1.0" />
+			</material>
+		</visual>
+	</link>
+
+	<joint name = "camera_support_to_camera" type = "fixed">
+		<parent link = "camera_support_link" />
+		<child link = "camera_link" />
+		<origin xyz = "0.2 -0.35 0.35" rpy = "1.57 0 0"/>
+	</joint>
+
+	<!-- CAMERA-LINK -->
+	<!-- Actual camera of the robot -->
+	<link name = "camera_link">
+		<visual>
+			<origin xyz = "0 0 0" rpy = "1.57 0 1.57" />
+			<geometry>
+				<mesh filename = "package://cambot_description/meshes/cambot_camera.stl" />
+			</geometry>
+			<material name = "cambot/black">
+				<color rgba = "0.0 0.0 0.0 1.0" />
 			</material>
 		</visual>
 	</link>
 </robot>
+
