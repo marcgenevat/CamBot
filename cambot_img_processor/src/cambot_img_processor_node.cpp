@@ -85,13 +85,15 @@ void RosImgProcessorNode::process()
 
                 std_msgs::Float32MultiArray face_center;
 
+                //Clear array
+                face_center.data.clear();
+
                 face_center.layout.dim.resize(1);
                 face_center.layout.dim[0].label = "face_center";
                 face_center.layout.dim[0].size = 2;
                 face_center.data.resize(2);
 
-                //Clear array
-                face_center.data.clear();
+
 
                 face_center.data[0]=(float)face_center_x;
                 face_center.data[1]=(float)face_center_y;
