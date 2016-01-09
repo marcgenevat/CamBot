@@ -79,6 +79,16 @@
         		<mesh filename = "package://cambot_description/meshes/cambot_wheel_collision.stl" scale="0.01 0.01 0.01"/>
       		</geometry>
     	</collision>
+		<inertial>
+      		<origin rpy = "0 0 0" xyz = "-30.036e-3 0 0"/>
+      		<mass value = "0.01311625"/>
+      		<inertia ixx = "0.000481"
+               ixy = "0.000000"
+               ixz="0.000000"
+               iyy="0.000244"
+               iyz="0.000000"
+               izz="0.000244"/>
+    	</inertial>
 	</link>
 
 	<link name = "right_wheel_link">
@@ -97,6 +107,16 @@
         		<mesh filename = "package://cambot_description/meshes/cambot_wheel_collision.stl" scale="0.01 0.01 0.01"/>
       		</geometry>
     	</collision>
+		<inertial>
+      		<origin rpy = "0 0 0" xyz = "-30.036e-3 0 0"/>
+      		<mass value = "0.01311625"/>
+      		<inertia ixx = "0.000481"
+               ixy = "0.000000"
+               ixz="0.000000"
+               iyy="0.000244"
+               iyz="0.000000"
+               izz="0.000244"/>
+    	</inertial>
 	</link>
 
 	<!-- SERVO-LINK -->
@@ -117,6 +137,16 @@
         		<mesh filename = "package://cambot_description/meshes/cambot_servo_collision.stl" scale="0.01 0.01 0.01"/>
       		</geometry>
     	</collision>
+		<inertial>
+      		<origin rpy = "0 0 0" xyz = "105.286-3 -0.010e-3 -208.732e-3"/>
+      		<mass value = "0.056861"/>
+      		<inertia ixx = "0.001002"
+               ixy = "0.000000"
+               ixz="0.000013"
+               iyy="0.001521"
+               iyz="0.000000"
+               izz="0.001247"/>
+    	</inertial>
 	</link>
 
 	<joint name = "servo_to_camera_support" type = "revolute">
@@ -145,6 +175,16 @@
         		<mesh filename = "package://cambot_description/meshes/cambot_camera_support_collision.stl" scale="0.01 0.01 0.01"/>
       		</geometry>
     	</collision>
+		<inertial>
+      		<origin rpy = "0 0 0" xyz = "296.718e-3 -2.503e-3 -9.185e-3"/>
+      		<mass value = "0.051725"/>
+      		<inertia ixx = "0.001852"
+               ixy = "0.00000"
+               ixz="0.000153"
+               iyy="0.003620"
+               iyz="0.000000"
+               izz="0.001951"/>
+    	</inertial>
 	</link>
 
 	<joint name = "camera_support_to_camera" type = "fixed">
