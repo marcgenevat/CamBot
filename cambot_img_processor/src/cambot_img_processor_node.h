@@ -9,6 +9,8 @@
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/image_encodings.h>
 
+#include <ros/package.h>
+
 /** \brief Simple Image Processor
  *
  * Simple Image Processor with opencv calls
