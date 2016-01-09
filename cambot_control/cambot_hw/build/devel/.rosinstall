@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/marcgenevat/catkin_ws/src/CamBot/cambot_control/cambot_hw/build/devel/setup.sh
