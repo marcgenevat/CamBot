@@ -26,7 +26,7 @@ $ roslaunch cambot_description display.launch
 
 
 #CAMBOT_MOTION:
-##----------------------------------USE OF PACKAGE:-----------------------------------------##
+#----------------------------------USE OF PACKAGE:-----------------------------------------##
 
 BUILD CATKIN PACKAGE
 $ catkin_make --pkg Cambot_Motion
