@@ -30,7 +30,9 @@ class RosImgProcessorNode
         ros::Subscriber camera_info_subs_;
 
         //publishers
-        image_transport::Publisher image_pub_;      
+        image_transport::Publisher image_pub_;
+	ros::Publisher face_center_xy_pub_; //publish (x,y) center for face_detections  
+    
         
         //pointer to received (in) and published (out) images
         cv_bridge::CvImagePtr cv_img_ptr_in_;

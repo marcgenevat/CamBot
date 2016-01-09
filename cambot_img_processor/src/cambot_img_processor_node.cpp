@@ -7,6 +7,13 @@
 #include <opencv2/highgui/highgui.hpp>
 #include "opencv2/objdetect/objdetect.hpp"
 
+#include "std_msgs/MultiArrayLayout.h"
+#include "std_msgs/MultiArrayDimension.h"
+#include "std_msgs/Float32MultiArray.h"
+
+
+
+
 RosImgProcessorNode::RosImgProcessorNode() : 
     nh_(ros::this_node::getName()),
     img_tp_(nh_)
@@ -16,6 +23,7 @@ RosImgProcessorNode::RosImgProcessorNode() :
     
     //sets publishers
     image_pub_ = img_tp_.advertise("image_out", 100);
+    face_center_xy_pub_ = nh_.advertise<std_msgs::Float32MultiArray>("face_center_xy", 100);
     
     //sets subscribers
     image_subs_ = img_tp_.subscribe("image_in", 1, &RosImgProcessorNode::imageCallback, this);
@@ -62,7 +70,7 @@ void RosImgProcessorNode::process()
 
             //Detect faces as rectangles
             std::vector<cv::Rect> faces;
-            face_detect.detectMultiScale(frame_gray, faces);
+            face_detect.detectMultiScale(frame_gray, faces, 1.1, 5, 0 , cv::Size(40, 40), cv::Size(480,480)  );
 
             for (int i = 0; i < faces.size(); i++)
             {
@@ -70,9 +78,39 @@ void RosImgProcessorNode::process()
                 // Process face by face:
                 cv::Rect face_i = faces[i];
 
+                float face_center_x = 0; //face center x
+                float face_center_y = 0;  //face center y
+                face_center_x = face_i.x + (face_i.width * 0.5); //face center x
+                face_center_y = face_i.y + (face_i.height * 0.5);  //face center y
+
+                std_msgs::Float32MultiArray face_center;
+
+                face_center.layout.dim.resize(1);
+                face_center.layout.dim[0].label = "face_center";
+                face_center.layout.dim[0].size = 2;
+                face_center.data.resize(2);
+
+                //Clear array
+                face_center.data.clear();
+
+                face_center.data[0]=(float)face_center_x;
+                face_center.data[1]=(float)face_center_y;
+                //std::cout <<  "face_center_x: " << face_center_x << std::endl ;
+
+
                 // Write all we've found out to the original image!
                 // First of all draw a green rectangle around the detected face:
                 cv::rectangle(cv_img_out_.image, face_i, cv::Scalar(0, 255,0), 1);
+
+                //Publish array
+                face_center_xy_pub_.publish(face_center);
+                //Let the world know
+                //ROS_INFO("Face Detected. Published center x,y");
+                //Do this.
+                //nh_.spinOnce();
+
+                //Added a delay so not to spam
+                //sleep(2);
 
             }
 
