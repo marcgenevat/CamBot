@@ -25,7 +25,7 @@ In order to visualize the robot model with RVIZ:
 $ roslaunch cambot_description display.launch
 
 
-#CAMBOT_MOTION:
+##CAMBOT_MOTION:
 #--USE OF PACKAGE:-------------
 
 BUILD CATKIN PACKAGE
@@ -48,7 +48,7 @@ $ rostopic pub Velocity_y std_msgs/UInt8 XX (Where XX is Y Velocity)
 
 
 
-#--VELOCITY VALUES:--
+#--VELOCITY VALUES:
 ROBOT X MOVEMENT:
 	FROM 100 A 180 LEFT DIRECTION
 	FROM 0 A 80 LEFT DIRECTION
@@ -56,9 +56,7 @@ ROBOT Y MOVEMENT:
 	UP MOVEMENT: To be defined in the integration
 	DOWN MOVEMENT: To be defined in the integration
 
-
-
-#--NOTES:--
+#--NOTES:
 Is possible you need to change port in launch File:
 Open launch file, and in the following text set your port detected by Arduino:
 	<param name="port" value="/dev/ttyUSB2"/>
