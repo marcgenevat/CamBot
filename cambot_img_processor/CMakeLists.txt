@@ -42,6 +42,16 @@ target_link_libraries(cambot_img_processor ${OpenCV_LIBS} ${catkin_LIBRARIES})
 install(TARGETS cambot_img_processor
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
+## Mark other files for installation (e.g. launch and bag files, etc.)
+ install(FILES
+#   # myfile1
+#   # myfile2
+	data/haarcascades/haarcascade_frontalface_default.xml
+   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+ )
+
+
+
 #Share launch and configs
 foreach(dir launch config)
     install(DIRECTORY ${dir}/
