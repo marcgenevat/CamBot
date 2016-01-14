@@ -10,7 +10,7 @@
 #include "std_msgs/MultiArrayLayout.h"
 #include "std_msgs/MultiArrayDimension.h"
 #include "std_msgs/Float32MultiArray.h"
-#include "geometry_msgs/Point.h"
+#include "geometry_msgs/Point.msg"
 
 
 

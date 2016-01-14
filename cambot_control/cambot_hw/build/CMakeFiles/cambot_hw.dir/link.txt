@@ -1,1 +1,0 @@
-/usr/bin/c++       CMakeFiles/cambot_hw.dir/src/cambot_hw_interface.cpp.o  -o cambot_hw -rdynamic 

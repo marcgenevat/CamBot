@@ -1,8 +1,0 @@
-prefix=/home/marcgenevat/catkin_ws/src/CamBot/cambot_control/cambot_hw/build/devel
-
-Name: cambot_hw
-Description: Description of cambot_hw
-Version: 0.0.1
-Cflags: 
-Libs: -L/home/marcgenevat/catkin_ws/src/CamBot/cambot_control/cambot_hw/build/devel/lib 
-Requires: 

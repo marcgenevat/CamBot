@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "cambot_hw")
-set(cambot_hw_MAINTAINER "Marc Genevat <mgenevat@gmail.com>")
-set(cambot_hw_DEPRECATED "")
-set(cambot_hw_VERSION "0.0.1")
-set(cambot_hw_BUILD_DEPENDS "cambot_controllers" "cambot_description" "control_toolbox" "controller_manager" "hardware_interface" "rospy")
-set(cambot_hw_RUN_DEPENDS "cambot_controllers" "cambot_description" "control_toolbox" "controller_manager" "hardware_interface" "rospy")
-set(cambot_hw_BUILDTOOL_DEPENDS "catkin")

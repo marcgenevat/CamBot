@@ -1,0 +1,8 @@
+prefix=/home/marcgenevat/catkin_ws/src/CamBot/cambot_subscriber/build/devel
+
+Name: cambot_subscriber
+Description: Description of cambot_subscriber
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/marcgenevat/catkin_ws/src/CamBot/cambot_subscriber/build/devel/lib 
+Requires: 
