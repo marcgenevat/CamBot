@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "cambot_subscriber")
-set(cambot_subscriber_MAINTAINER "marcgenevat <marcgenevat@todo.todo>")
-set(cambot_subscriber_DEPRECATED "")
-set(cambot_subscriber_VERSION "0.0.0")
-set(cambot_subscriber_BUILD_DEPENDS "std_msgs")
-set(cambot_subscriber_RUN_DEPENDS "std_msgs")
-set(cambot_subscriber_BUILDTOOL_DEPENDS "catkin")

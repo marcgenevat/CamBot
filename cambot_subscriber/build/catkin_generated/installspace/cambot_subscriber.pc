@@ -1,8 +1,0 @@
-prefix=/usr/local
-
-Name: cambot_subscriber
-Description: Description of cambot_subscriber
-Version: 0.0.0
-Cflags: 
-Libs: -L/usr/local/lib 
-Requires: 
