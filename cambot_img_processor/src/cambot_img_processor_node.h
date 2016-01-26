@@ -31,7 +31,7 @@ class RosImgProcessorNode
 
         //publishers
         image_transport::Publisher image_pub_;
-	ros::Publisher face_center_xy_pub_; //publish (x,y) center for face_detections  
+        ros::Publisher face_center_xy_pub_; //publish (x,y) center for face_detections
     
         
         //pointer to received (in) and published (out) images
