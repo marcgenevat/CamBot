@@ -46,7 +46,7 @@ void RosImgProcessorNode::process()
     pkg_path = ros::package::getPath("cambot_img_processor");
     //std::cout << std::endl << "*** Path: " << pkg_path << std::endl;
 
-    cv::String face_cascade_name = pkg_path + "/data/haarcascades/haarcascade_frontalface_default.xml";
+    cv::String face_cascade_name = pkg_path + "/data/lbpcascades/lbpcascade_frontalface.xml";
 
     //face_detect.load("../data/haarcascades/haarcascade_frontalface_default.xml");
     //face_detect.load("../data/lbpcascades/lbpcascade_frontalcatface.xml"); //This one works worse than haarcascade_frontalface_default.xml
