@@ -1,0 +1,78 @@
+#ifndef CAMBOT_FACE_DETECTOR_NODE_H
+#define CAMBOT_FACE_DETECTOR_NODE_H
+
+/************LIBRARIES************/
+
+#include "cv.h"
+#include "highgui.h"
+#include <iostream>
+#include <cstdlib>
+#include <math.h>
+#include <vector>
+#include <sstream>
+
+//ROS headers for image I/O
+#include <ros/ros.h>
+#include <ros/console.h>
+#include <ros/package.h>
+#include <image_transport/image_transport.h>
+#include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/image_encodings.h>
+#include <geometry_msgs/Point.h>
+
+/*********************************/
+
+class CambotFaceDetector {
+
+	protected:
+		
+		//ros node handle
+		ros::NodeHandle nh;
+		
+		//image transport
+		image_transport::ImageTransport img_tp;
+
+		//subscribers to the image and camera info topics
+		image_transport::Subscriber image_sub;
+		ros::Subscriber camera_info_subs;
+
+		//publishers
+		geometry_msgs::Point detector_msg;
+		ros::Publisher detector_pub;
+		geometry_msgs::Point faceSize_msg;
+		ros::Publisher faceSize_pub;
+
+		//pointer to received (in) and published (out) images
+        cv_bridge::CvImagePtr cv_img_ptr_in;
+        cv_bridge::CvImage cv_img_out;
+
+		//image encoding label
+		std::string img_encoding;
+
+		//wished process rate [hz]
+		double rate;
+
+		//face detector variables
+		cv::CascadeClassifier face_detector;
+		cv::Mat image, gray;
+		std::vector<cv::Rect> faces;
+
+	protected:
+		
+		//callbacks
+		void imageCallback(const sensor_msgs::ImageConstPtr& msg);
+		void cameraInfoCallback(const sensor_msgs::CameraInfo & msg);
+	
+	public:
+
+		CambotFaceDetector(const char *filename);
+		~CambotFaceDetector();
+
+		void publish();
+		double getRate() const;
+
+		void detectFace();
+};
+
+#endif
+

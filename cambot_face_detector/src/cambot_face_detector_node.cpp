@@ -1,0 +1,83 @@
+#define CAMBOT_FACE_DETECTOR_NODE_C_
+
+/************LIBRARIES************/
+
+#include "cambot_face_detector_node.h"
+
+/*********************************/
+
+/************FUNCTIONS************/
+
+CambotFaceDetector::CambotFaceDetector(const char* xml_filename):
+	nh(ros::this_node::getName()),
+	img_tp(nh)
+{
+	//loop rate [hz]
+	rate = 10;
+	
+	//set publisher	
+	detector_pub = nh.advertise<geometry_msgs::Point>("detector_out",100);
+	faceSize_pub = nh.advertise<geometry_msgs::Point>("face_size",100);	
+
+	//set subscriber
+	image_sub = img_tp.subscribe("image_out", 10, &CambotFaceDetector::imageCallback, this);
+	
+}
+
+CambotFaceDetector::~CambotFaceDetector()
+{
+	//Destructor
+}
+
+void CambotFaceDetector::detectFace() {
+
+	//package path
+	std::string pkg_path;
+    pkg_path = ros::package::getPath("cambot_img_processor");
+
+	cv::String face_cascade_name = pkg_path + "/data/lbpcascades/lbpcascade_frontalface.xml";
+
+    if( !face_detector.load( face_cascade_name ) ){ printf("--(!)Error loading\n"); return; };
+
+	if (cv_img_ptr_in != nullptr) {
+        //copy the input image to the out one
+        image = cv_img_ptr_in->image;
+        cv::cvtColor(image, gray, CV_BGR2GRAY);
+        face_detector.detectMultiScale(gray, faces, 1.3, 4, cv::CASCADE_SCALE_IMAGE, cv::Size(24, 24), cv::Size(480,480));
+    }
+}
+
+void CambotFaceDetector::publish() {
+	if (faces.size() > 0) {
+		detector_msg.x = faces[0].x;
+		detector_msg.y = faces[0].y;
+		detector_pub.publish(detector_msg);
+		
+		faceSize_msg.x = faces[0].width;
+		faceSize_msg.y = faces[0].height;
+		faceSize_pub.publish(faceSize_msg);
+	}
+}
+
+double CambotFaceDetector::getRate() const {
+	return rate;
+}
+
+void CambotFaceDetector::imageCallback(const sensor_msgs::ImageConstPtr& msg) {
+	try {
+		if (msg->data.size() > 0) {
+			img_encoding = msg->encoding;
+			cv_img_ptr_in = cv_bridge::toCvCopy(msg, msg->encoding);
+		}
+	} catch (cv_bridge::Exception& e) {
+		ROS_ERROR("CambotImgProcessorNode::image_callback(): cv_bridge exception: %s", e.what());
+		return;
+	}
+}
+	
+/*********************************/
+
+
+
+
+

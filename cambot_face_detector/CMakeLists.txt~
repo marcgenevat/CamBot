@@ -1,0 +1,48 @@
+cmake_minimum_required(VERSION 2.8.3)
+project(cambot_face_detector)
+
+#set C++11 support
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+## Find catkin macros and libraries
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## is used, also find other catkin packages
+find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
+  roscpp
+  rospy
+  std_msgs
+)
+
+## System dependencies are found with CMake's conventions
+find_package(OpenCV 2 REQUIRED)
+
+#sources files
+SET(SRCS
+		src/cambot_face_detector_node.cpp
+		src/cambot_face_detector_main.cpp)
+
+catkin_package(
+      CATKIN_DEPENDS 
+            roscpp 
+            rospy 
+            image_transport 
+            cv_bridge)
+
+## Specify additional locations of header files
+include_directories(${OpenCV_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
+
+## Declare a cpp executable for pipol_tracker_node
+add_executable(cambot_face_detector ${SRCS})
+#add_dependencies(pipol_tracker_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+target_link_libraries(cambot_face_detector ${OpenCV_LIBS} ${catkin_LIBRARIES})
+
+#install binaries
+install(TARGETS cambot_face_detector
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+#Share launch and configs
+foreach(dir launch config)
+    install(DIRECTORY ${dir}/
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+endforeach(dir)

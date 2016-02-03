@@ -20,7 +20,7 @@ CambotImgProcessor::CambotImgProcessor() :
 	kalmanFilter_subs = nh.subscribe("kalman_in", 1, &CambotImgProcessor::kalmanFilterCallback, this);
 }
 
-CambotImgProcessor::~CambotImgProcessor()
+RosImgProcessorNode::~RosImgProcessorNode()
 {
     //Destructor
 }

@@ -65,8 +65,8 @@ void motion_X() {
   myservo_Xder.write(STOP);
   
   //Setting center zone as +/-5% relative error at the X axis
-  if (error_X > 5.0) {
-    while (error_X > 5.0) {
+  if (error_X > 10.0) {
+    while (error_X > 10.0) {
       //myservo_Xizd.write(MAX_esquerra);                   
       //myservo_Xder.write(MAX_esquerra);
       myservo_Xizd.write(85);                   
@@ -74,8 +74,8 @@ void motion_X() {
       nh.spinOnce();
     }
   } else {
-      if  (error_X < -5.0) {
-        while (error_X < -5.0) {
+      if  (error_X < -10.0) {
+        while (error_X < -10.0) {
           //myservo_Xizd.write(MAX_dreta);                   
           //myservo_Xder.write(MAX_dreta);
           myservo_Xizd.write(100);                   
@@ -89,16 +89,16 @@ void motion_X() {
 void motion_Y() {
     
   //Setting center zone as +/-10% relative error at the Y axis
-  if (error_Y < -10.0) {
-    while ((error_Y < -10.0) && (pos > pos_min)){
+  if (error_Y < -5.0) {
+    while ((error_Y < -5.0) && (pos > pos_min)){
       pos--;
       myservo_Y.write(pos);  //Facing up the camera
       delay(100);      
       nh.spinOnce();
     }
   } else {
-      if  (error_Y > -10.0) {
-        while ((error_Y > -10.0) && (pos < pos_max)) {
+      if  (error_Y > 5.0) {
+        while ((error_Y > 5.0) && (pos < pos_max)) {
           pos++;
           myservo_Y.write(pos);  //Facing down the camera
           delay(100); 
@@ -108,8 +108,8 @@ void motion_Y() {
   }
 }
 
-ros::Subscriber<geometry_msgs::Point> sub_face("/cambot_img_processor/face_center_xy", &face_center);
-ros::Subscriber<geometry_msgs::Vector3> sub_hand("/leapmotion/data", &hand_rotation);
+ros::Subscriber<geometry_msgs::Point> sub_face("/cambot_kalman_filter/kalman_out", &face_center);
+//ros::Subscriber<geometry_msgs::Vector3> sub_hand("/leapmotion/data", &hand_rotation);
 
 void setup() 
 { 
@@ -122,9 +122,9 @@ void setup()
   nh.initNode();            //Initialize ROS node handle, 
   
   nh.subscribe(sub_face);
-  nh.subscribe(sub_hand);
+  //nh.subscribe(sub_hand);
   nh.advertise(pub_pixel);
-  nh.advertise(pub_rotation);
+  //nh.advertise(pub_rotation);
 
 } 
 

@@ -1,0 +1,34 @@
+#define CAMBOT_FACE_DETECTOR_MAIN_C_
+
+#include "cambot_face_detector_node.h"
+
+int main(int argc, char **argv) {
+	
+	//Init ros
+	ros::init(argc, argv, "cambot_face_detector");
+	
+	//Create ros wrapper object
+	CambotFaceDetector faceDetector(argv[1]);
+
+	//Set node loop rate
+	ros::Rate loopRate(faceDetector.getRate());
+
+	//Node loop
+	while ( ros::ok() ) {
+		
+		//Execute pending callbacks
+		ros::spinOnce();
+
+		//Detect faces
+		faceDetector.detectFace();
+
+		//Publish face center
+		faceDetector.publish();
+
+		//Fitting output rate
+		loopRate.sleep();
+	}
+
+	//Exit program
+	return 0;
+}
