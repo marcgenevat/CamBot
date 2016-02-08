@@ -77,31 +77,31 @@ CambotKalmanFilter::CambotKalmanFilter():
 	rate = 10;
 
 	//Set publishers
-	kalman_tracker = node.advertise<geometry_msgs::Point>("kalman_out", 10);
+	kalman_tracker = node.advertise<geometry_msgs::Point>("kalman_out", 1);
 
 	//Set subscribers
-	face_detected = node.subscribe("/cambot_img_processor/face_center_xy", 10, &CambotKalmanFilter::faceDetectorCallback, this);
+	face_detected = node.subscribe("/cambot_face_detector/detector_out", 1, &CambotKalmanFilter::faceDetectorCallback, this);
 
-    //Initial state position
+    	//Initial state position
 	x_predicted(0) = 320;
-    x_predicted(1) = 240;
-    x_predicted(2) = 0;
-    x_predicted(3) = 0;
+    	x_predicted(1) = 240;
+    	x_predicted(2) = 0;
+    	x_predicted(3) = 0;
 
 	//Initial covariance state
-    C_x_before << 100, 0, 0, 0,
+    	C_x_before << 100, 0, 0, 0,
                	   0, 10^2, 0, 0,
                    0, 0, 5^2, 0,
                    0, 0, 0, 5^2;
 
 	//Covariance prediction noise
-    C_nx << sigma_p_x, 0, 0, 0,
+    	C_nx << sigma_p_x, 0, 0, 0,
          	0, sigma_p_x, 0, 0,
          	0, 0, sigma_v_x, 0,
          	0, 0, 0, sigma_v_x;
 
 	//Covariance measurement
-    H << 1, 0, 0, 0,
+   	H << 1, 0, 0, 0,
     	 0, 1, 0, 0;
 
 	//Covariance measurement noise

@@ -34,11 +34,12 @@ class CambotFaceDetector {
 
 		//subscribers to the image and camera info topics
 		image_transport::Subscriber image_sub;
+		ros::Subscriber camera_info_subs;
 
 		//publishers
 		geometry_msgs::Point detector_msg;
-		geometry_msgs::Point faceSize_msg;
 		ros::Publisher detector_pub;
+		geometry_msgs::Point faceSize_msg;
 		ros::Publisher faceSize_pub;
 
 		//pointer to received (in) and published (out) images
@@ -59,8 +60,9 @@ class CambotFaceDetector {
 	protected:
 		
 		//callbacks
-		void imageCallback(const sensor_msgs::ImageConstPtr& camera_msg);
-
+		void imageCallback(const sensor_msgs::ImageConstPtr& msg);
+		void cameraInfoCallback(const sensor_msgs::CameraInfo & msg);
+	
 	public:
 
 		CambotFaceDetector(const char *filename);

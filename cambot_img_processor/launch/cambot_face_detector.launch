@@ -1,0 +1,9 @@
+<!-- Launches cambot_img_processor and two image windows-->
+
+<launch>
+
+    <include file="$(find cambot_img_processor)/launch/cambot_img_processor.launch"/>
+
+    <node pkg="cambot_face_detector" name="cambot_face_detector" type="cambot_face_detector" output="screen" />
+
+</launch>

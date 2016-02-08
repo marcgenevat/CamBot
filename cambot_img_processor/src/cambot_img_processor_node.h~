@@ -3,7 +3,7 @@
 
 /************LIBRARIES************/
 
-#include <ros.h>
+#include <ros/ros.h>
 
 #include <iostream>
 
@@ -11,6 +11,10 @@
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/image_encodings.h>
 #include <geometry_msgs/Point.h>
+
+//Eigen
+#include <eigen3/Eigen/Dense>
+#include <eigen3/Eigen/Geometry>
 
 /*********************************/
 
@@ -29,18 +33,30 @@ class CambotImgProcessor {
 		ros::Subscriber faceSize_subs;
 		ros::Subscriber kalmanFilter_subs;
 
+		//pointer to received (in) and published (out) images
+		cv_bridge::CvImagePtr cv_img_ptr_in;
+		cv_bridge::CvImage cv_img_out;
+
+		//image encoding label
+		std::string img_encoding;
+
         //publishers
         image_transport::Publisher image_pub;
     
         //wished process rate [hz]
         double rate;
+		double lastCallback;
+
+	    //variables for rectangles to print
+	    cv::Rect_<int> box_detector;
+	    cv::Rect_<int> box_kalman;
         
     protected: 
         // callbacks
         void imageCallback(const sensor_msgs::ImageConstPtr& msg);
         void cameraInfoCallback(const sensor_msgs::CameraInfo & msg);
-		void detectorCallback(const geometry_msgs::Point& msg);
-		void faceSizeCallback(const geometry_msgs::Point& msg);
+		void detectorCallback(const geometry_msgs::Point& detect_msg);
+		void faceSizeCallback(const geometry_msgs::Point& size_msg);
 		void kalmanFilterCallback(const geometry_msgs::Point& msg);
 
     public:

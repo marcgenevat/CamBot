@@ -43,8 +43,8 @@ class CambotFaceDetector {
 		ros::Publisher faceSize_pub;
 
 		//pointer to received (in) and published (out) images
-        cv_bridge::CvImagePtr cv_img_ptr_in;
-        cv_bridge::CvImage cv_img_out;
+        	cv_bridge::CvImagePtr cv_img_ptr_in;
+        	cv_bridge::CvImage cv_img_out;
 
 		//image encoding label
 		std::string img_encoding;

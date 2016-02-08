@@ -6,6 +6,8 @@
 
 /*********************************/
 
+using namespace std;
+
 /************FUNCTIONS************/
 
 CambotFaceDetector::CambotFaceDetector(const char* xml_filename):
@@ -16,11 +18,11 @@ CambotFaceDetector::CambotFaceDetector(const char* xml_filename):
 	rate = 10;
 	
 	//set publisher	
-	detector_pub = nh.advertise<geometry_msgs::Point>("detector_out",100);
-	faceSize_pub = nh.advertise<geometry_msgs::Point>("face_size",100);	
+	detector_pub = nh.advertise<geometry_msgs::Point>("detector_out",1);
+	faceSize_pub = nh.advertise<geometry_msgs::Point>("face_size",1);	
 
 	//set subscriber
-	image_sub = img_tp.subscribe("image_out", 10, &CambotFaceDetector::imageCallback, this);
+	image_sub = img_tp.subscribe("/usb_cam/image_raw", 100,  &CambotFaceDetector::imageCallback, this);
 	
 }
 
@@ -33,11 +35,11 @@ void CambotFaceDetector::detectFace() {
 
 	//package path
 	std::string pkg_path;
-    pkg_path = ros::package::getPath("cambot_img_processor");
+    	pkg_path = ros::package::getPath("cambot_img_processor");
 
 	cv::String face_cascade_name = pkg_path + "/data/lbpcascades/lbpcascade_frontalface.xml";
 
-    if( !face_detector.load( face_cascade_name ) ){ printf("--(!)Error loading\n"); return; };
+    	if( !face_detector.load( face_cascade_name ) ){ printf("--(!)Error loading\n"); return; };
 
 	if (cv_img_ptr_in != nullptr) {
         //copy the input image to the out one
@@ -52,6 +54,7 @@ void CambotFaceDetector::publish() {
 		detector_msg.x = faces[0].x;
 		detector_msg.y = faces[0].y;
 		detector_pub.publish(detector_msg);
+		
 		
 		faceSize_msg.x = faces[0].width;
 		faceSize_msg.y = faces[0].height;
