@@ -1,11 +1,13 @@
 #include <ArduinoHardware.h>
+
+
 //MOVEMENTS OF SERVOS:
 // FROM 100 TO 180 LEFT
 // FROM 0 TO 80 RIGHT
 // 90 = STOP
 
-#define height 480
-#define width 640
+#define height 240  // 480/2
+#define width 320   // 640/2
 #define STOP 90
 #define MAX_dreta 0
 #define MAX_esquerra 180
@@ -20,9 +22,10 @@
 ros::NodeHandle  nh;
 
 geometry_msgs::Point pixel_msg;
+geometry_msgs::Point error_msg;
 geometry_msgs::Vector3 rotation_msg;
 
-//ros::Publisher pub_error("relative_error", &pixel_msg);
+ros::Publisher pub_error("relative_error", &pixel_msg);
 //ros::Publisher pub_rotation("rotation_msg", &rotation_msg);
 
 
@@ -38,19 +41,19 @@ float pitch;
 float yaw;
 int pos;
 int pos_max = 180;
-int pos_min = 140;
+int pos_min = 145;
 int init_pos = 160;
 
 
 
-void face_center(const geometry_msgs::Point& error){
-  error_X = ((error.x - width/2) / width) * 100;      //Calculate the relative error to the center at the X axis
-  error_Y = ((error.y - height/2) / height) * 100;    //Calculate the relative error to the center at the Y axis
+void face_center(const geometry_msgs::Point& error_msg){
+  error_X = ((error_msg.x - width/2) / width) * 100;      //Calculate the relative error to the center at the X axis
+  error_Y = ((error_msg.y - height/2) / height) * 100;    //Calculate the relative error to the center at the Y axis
   
   //Preparing msg
-  /*pixel_msg.x = error_X;
+  pixel_msg.x = error_X;
   pixel_msg.y = error_Y;
-  pub_pixel.publish(&pixel_msg);*/
+  pub_error.publish(&pixel_msg);
 }
 
 /*void hand_rotation(const geometry_msgs::Vector3& hand) {
@@ -108,12 +111,13 @@ void motion_Y() {
   }
 }
 
-ros::Subscriber<geometry_msgs::Point> sub_face("/cambot_kalman_filter/kalman_out", &face_center_msg);
+
+ros::Subscriber<geometry_msgs::Point> sub_face("/cambot_kalman_filter/kalman_out", &face_center);
 //ros::Subscriber<geometry_msgs::Vector3> sub_hand("/leapmotion/data", &hand_rotation);
 
 void setup() 
 { 
-  myservo_Y.attach(11);      //CAM Servo Pin 11 (Y movements)
+  myservo_Y.attach(11);     //CAM Servo Pin 11 (Y movements)
   myservo_Xizd.attach(12);  //BOT Servo Left wheel Pin 12 (X movements)
   myservo_Xder.attach(13);  //BOT Servo right wheel Pin 13 (X movements)
   
@@ -123,7 +127,7 @@ void setup()
   
   nh.subscribe(sub_face);
   //nh.subscribe(sub_hand);
-  nh.advertise(pub_pixel);
+  nh.advertise(pub_error);
   //nh.advertise(pub_rotation);
 
 } 
@@ -133,5 +137,5 @@ void loop () {
 
   motion_X();
   motion_Y();  
- 
+
 }
