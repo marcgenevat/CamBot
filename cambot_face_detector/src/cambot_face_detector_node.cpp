@@ -39,7 +39,7 @@ void CambotFaceDetector::detectFace() {
 
 	cv::String face_cascade_name = pkg_path + "/data/lbpcascades/lbpcascade_frontalface.xml";
 
-    	if( !face_detector.load( face_cascade_name ) ){ printf("--(!)Error loading\n"); return; };
+    if( !face_detector.load( face_cascade_name ) ){ printf("--(!)Error loading\n"); return; };
 
 	if (cv_img_ptr_in != nullptr) {
         //copy the input image to the out one
@@ -51,8 +51,8 @@ void CambotFaceDetector::detectFace() {
 
 void CambotFaceDetector::publish() {
 	if (faces.size() > 0) {
-		detector_msg.x = faces[0].x;
-		detector_msg.y = faces[0].y;
+		detector_msg.x = faces[0].x + faces[0].width * 0.5;
+		detector_msg.y = faces[0].y + faces[0].height * 0.5;
 		detector_pub.publish(detector_msg);
 		
 		

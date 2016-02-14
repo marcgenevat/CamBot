@@ -36,11 +36,12 @@ void CambotImgProcessor::process()
         cv_img_out.image = cv_img_ptr_in->image;
 
 		if(box_detector.x > 0) {
-    		cv::rectangle(cv_img_out.image, box_detector, cv::Scalar(0, 255,0), 1);
+    		//cv::rectangle(cv_img_out.image, box_detector, cv::Scalar(0, 255,0), 1);
+			cv::circle(cv_img_out.image, box_detector, cv::Scalar(255, 0,0), 1);
 		}
 
 		if(box_kalman.x > 0) {
-    		cv::rectangle(cv_img_out.image, box_kalman, cv::Scalar(255, 0,0), 1);
+    		cv::rectangle(cv_img_out.image, box_kalman, cv::Scalar(0, 255,0), 3);
 		}
    	}
 
@@ -88,23 +89,8 @@ void CambotImgProcessor::cameraInfoCallback(const sensor_msgs::CameraInfo & msg)
 void CambotImgProcessor::detectorCallback(const geometry_msgs::Point& detect_msg)
 {
 	try {
-		box_detector.x = detect_msg.x;
-		box_detector.y = detect_msg.y;
-		lastCallback = ros::Time::now().toSec();
-	} catch (ros::Exception& e) {
-		ROS_ERROR("CambotImgProcessor::detectorCallback(): exception: %s", e.what());
-        return;
-    }
-
-}
-
-void CambotImgProcessor::faceSizeCallback(const geometry_msgs::Point& size_msg)
-{
-	try {
-		box_detector.width = size_msg.x;
-		box_detector.height = size_msg.y;
-		box_kalman.width = size_msg.x;
-		box_kalman.height = size_msg.y;
+		detect_center_X = detect_msg.x;
+		detect_center_Y = detect_msg.y;
 		lastCallback = ros::Time::now().toSec();
 	} catch (ros::Exception& e) {
 		ROS_ERROR("CambotImgProcessor::detectorCallback(): exception: %s", e.what());
@@ -116,8 +102,8 @@ void CambotImgProcessor::faceSizeCallback(const geometry_msgs::Point& size_msg)
 void CambotImgProcessor::kalmanFilterCallback(const geometry_msgs::Point& kalman_msg)
 {
 	try {
-		box_kalman.x = kalman_msg.x;
-		box_kalman.y = kalman_msg.y;
+		kalman_center_X = kalman_msg.x;
+		kalman_center_Y = kalman_msg.y;
 		lastCallback = ros::Time::now().toSec();
 	} catch (ros::Exception& e) {
 		ROS_ERROR("CambotImgProcessor::kalmanFilterCallback(): exception: %s", e.what());
@@ -125,3 +111,25 @@ void CambotImgProcessor::kalmanFilterCallback(const geometry_msgs::Point& kalman
     }
 }
 
+void CambotImgProcessor::faceSizeCallback(const geometry_msgs::Point& size_msg)
+{
+	try {
+		box_detector.width = size_msg.x;
+		box_detector.height = size_msg.y;
+
+		box_kalman.width = size_msg.x;
+		box_kalman.height = size_msg.y;
+
+		box_detector.x = detect_center_X - box_detector.width * 0.5;
+		box_detector.y = detect_center_Y - box_detector.height * 0.5;
+
+		box_kalman.x = kalman_center_X - box_detector.width * 0.5;
+		box_kalman.y = kalman_center_Y - box_detector.height * 0.5;
+		
+		lastCallback = ros::Time::now().toSec();
+	} catch (ros::Exception& e) {
+		ROS_ERROR("CambotImgProcessor::detectorCallback(): exception: %s", e.what());
+        return;
+    }
+
+}

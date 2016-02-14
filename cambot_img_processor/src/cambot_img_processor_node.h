@@ -50,6 +50,12 @@ class CambotImgProcessor {
 	    //variables for rectangles to print
 	    cv::Rect_<int> box_detector;
 	    cv::Rect_<int> box_kalman;
+
+		//variables for face center
+		float detect_center_X;
+		float detect_center_Y;
+		float kalman_center_X;
+		float kalman_center_Y;
         
     protected: 
         // callbacks

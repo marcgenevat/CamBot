@@ -18,8 +18,8 @@ CambotFaceDetector::CambotFaceDetector(const char* xml_filename):
 	rate = 10;
 	
 	//set publisher	
-	detector_pub = nh.advertise<geometry_msgs::Point>("detector_out",100);
-	faceSize_pub = nh.advertise<geometry_msgs::Point>("face_size",100);	
+	detector_pub = nh.advertise<geometry_msgs::Point>("detector_out",1);
+	faceSize_pub = nh.advertise<geometry_msgs::Point>("face_size",1);	
 
 	//set subscriber
 	image_sub = img_tp.subscribe("/usb_cam/image_raw", 100,  &CambotFaceDetector::imageCallback, this);
@@ -39,7 +39,7 @@ void CambotFaceDetector::detectFace() {
 
 	cv::String face_cascade_name = pkg_path + "/data/lbpcascades/lbpcascade_frontalface.xml";
 
-    	if( !face_detector.load( face_cascade_name ) ){ printf("--(!)Error loading\n"); return; };
+    if( !face_detector.load( face_cascade_name ) ){ printf("--(!)Error loading\n"); return; };
 
 	if (cv_img_ptr_in != nullptr) {
         //copy the input image to the out one
