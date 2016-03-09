@@ -51,8 +51,8 @@ void CambotFaceDetector::detectFace() {
 
 void CambotFaceDetector::publish() {
 	if (faces.size() > 0) {
-		detector_msg.x = faces[0].x;
-		detector_msg.y = faces[0].y;
+		detector_msg.x = faces[0].x + faces[0].width * 0.5;
+		detector_msg.y = faces[0].y + faces[0].height * 0.5;
 		detector_pub.publish(detector_msg);
 		
 		

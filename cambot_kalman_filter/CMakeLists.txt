@@ -15,10 +15,10 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(OpenCV 2 REQUIRED)
 
 ##Qt5 dependences dont know why.....IF NOT ERROR COMPILE
-find_package(Qt5Widgets)
-find_package(Qt5Test)
-find_package(Qt5Concurrent)
-find_package(Qt5OpenGL)
+#find_package(Qt5Widgets)
+#find_package(Qt5Test)
+#find_package(Qt5Concurrent)
+#find_package(Qt5OpenGL)
 
 #source files
 SET(SRCS 
@@ -38,7 +38,6 @@ include_directories(${OpenCV_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp executable for pipol_tracker_node
 add_executable(cambot_kalman_filter ${SRCS})
-#add_dependencies(pipol_tracker_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(cambot_kalman_filter ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
 #install binaries
@@ -50,4 +49,3 @@ foreach(dir launch config)
     install(DIRECTORY ${dir}/
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
 endforeach(dir)
-

@@ -1,8 +1,8 @@
 /*
   cambot_kalman_filter_node.h - Kalman filter's tracker library.
-  Created by Marc Genevat, Gener 31, 2016.
+  Created by Marc Genevat, February 14, 2016.
   Master's UVic Project: CamBot
-    Team members: Fèlix Torres, Toni Badenas, Toni Guasch, Xavier Blasco and Marc Genevat
+  Team members: Fèlix Torres, Toni Badenas, Toni Guasch, Xavier Blasco and Marc Genevat
 */
 
 #ifndef CAMBOT_KALMAN_FILTER_NODE_H
@@ -25,13 +25,14 @@
 
 //ROS headers for image I/O
 #include <geometry_msgs/Point.h>
+#include <std_msgs/Float32.h>
 
 /**********************************/
 
 /*****TYPEDEFS AND STRUCTURES*****/
 
 class CambotKalmanFilter {
-	
+
 	protected:
 		//Node
 		ros::NodeHandle node;
@@ -42,6 +43,8 @@ class CambotKalmanFilter {
 		//Publish face tracker
 		geometry_msgs::Point tracker_msg;
 		ros::Publisher kalman_tracker;
+		//std_msgs::Float32 dm_msg;
+		//ros::Publisher dm;
 
 		//Wished process rate [hz]
 		double rate;
@@ -64,15 +67,14 @@ class CambotKalmanFilter {
 		//Correction part of kalman filter
 		void correction();
 
-		//Get distance Malanovich
-		double distanceMalanovich();
+		//Mahalanobis distance calculation
+		//double distanceMahalanobis();
 
 		//Publish kalman msh
 		void publish();
 
 		//Returns rate
 		double getRate();
-
 };
 
 /**********************************/

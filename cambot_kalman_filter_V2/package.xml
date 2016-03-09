@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>cambot_kalman_filter</name>
+  <name>cambot_kalman_filter_V2</name>
   <version>0.0.0</version>
-  <description>The cambot_kalman_filter package</description>
+  <description>The cambot_kalman_filter_V2 package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/cambot_kalman_filter</url> -->
+  <!-- <url type="website">http://wiki.ros.org/cambot_kalman_filter_V2</url> -->
 
 
   <!-- Author tags are optional, mutiple are allowed, one per tag -->

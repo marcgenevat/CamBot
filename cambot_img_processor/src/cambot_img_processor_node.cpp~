@@ -9,7 +9,7 @@ CambotImgProcessor::CambotImgProcessor() :
     img_tp(nh)
 {
     //loop rate [hz], Could be set from a yaml file 
-    rate=10; 
+    rate=1000; 
     
     //sets publishers
     image_pub = img_tp.advertise("image_out", 100);
@@ -36,8 +36,7 @@ void CambotImgProcessor::process()
         cv_img_out.image = cv_img_ptr_in->image;
 
 		if(box_detector.x > 0) {
-    		//cv::rectangle(cv_img_out.image, box_detector, cv::Scalar(0, 255,0), 1);
-			cv::circle(cv_img_out.image, box_detector, cv::Scalar(255, 0,0), 1);
+    		cv::rectangle(cv_img_out.image, box_detector, cv::Scalar(255, 0,0), 1);
 		}
 
 		if(box_kalman.x > 0) {

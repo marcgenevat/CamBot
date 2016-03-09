@@ -18,6 +18,7 @@ int main(int argc, char **argv) {
 		
 		//Execute pending callbacks
 		ros::spinOnce();
+		cout<<"Hola"<<endl;
 
 		//Detect faces
 		faceDetector.detectFace();

@@ -1,6 +1,6 @@
 /*
-  cambot_kalman_filter_main.cpp - Kalman filter's tracker main program.
-  Created by Marc Genevat, Gener 31, 2016.
+  cambot_kalman_filter_node.h - Kalman filter's tracker library.
+  Created by Marc Genevat, February 14, 2016.
   Master's UVic Project: CamBot
   Team members: Fèlix Torres, Toni Badenas, Toni Guasch, Xavier Blasco and Marc Genevat
 */
@@ -37,6 +37,9 @@ int main (int argc, char **argv) {
 
 		//Correction
 		kalman_filter.correction();
+
+		//Distance Mahalanobis
+		//kalman_filter.distanceMahalanobis();
 
 		//Publish msg
 		kalman_filter.publish();

@@ -1,15 +1,15 @@
 /*
-  cambot_kalman_filter_node.h - Kalman filter's tracker library.
-  Created by Marc Genevat, February 14, 2016.
+  cambot_kalman_filter_main.cpp - Kalman filter's tracker main program.
+  Created by Marc Genevat, Gener 31, 2016.
   Master's UVic Project: CamBot
   Team members: Fèlix Torres, Toni Badenas, Toni Guasch, Xavier Blasco and Marc Genevat
 */
 
-#define CAMBOT_KALMAN_FILTER_MAIN_C_
+#define CAMBOT_KALMAN_FILTER_V2_MAIN_C_
 
 /************LIBRARIES************/
 
-#include "cambot_kalman_filter_node.h"
+#include "cambot_kalman_filter_V2_node.h"
 #include <iostream>
 
 /**********************************/

@@ -19,7 +19,7 @@
 #include <geometry_msgs/Vector3.h>
 
 
-ros::NodeHandle  nh;
+ros::NodeHandle nh;
 
 geometry_msgs::Point pixel_msg;
 geometry_msgs::Point face_center_msg;
@@ -29,8 +29,9 @@ ros::Publisher pub_error("relative_error", &pixel_msg);
 //ros::Publisher pub_rotation("rotation_msg", &rotation_msg);
 
 
-int velX;
-int velY;
+int vel_right = 86;
+int vel_left = 98;
+int vel;
 Servo myservo_Y;                               
 Servo myservo_Xizd;
 Servo myservo_Xder;
@@ -40,10 +41,10 @@ float face_width;
 float face_height;
 //float pitch;
 //float yaw;
-int pos;
 int pos_max = 180;
 int pos_min = 145;
 int init_pos = 160;
+int pos = init_pos;
 
 void face_center(const geometry_msgs::Point& face_center_msg) {
   
@@ -71,22 +72,36 @@ void motion_X() {
   myservo_Xder.write(STOP);
   
   //Setting center zone as +/-10% relative error at the X axis
-  if (error_X > 10.0) {
-    while (error_X > 10.0) {
+  if (error_X > 15.0) {
+    while (error_X > 15.0) {
       //myservo_Xizd.write(MAX_esquerra);                   
       //myservo_Xder.write(MAX_esquerra);
-      myservo_Xizd.write(85);                   
-      myservo_Xder.write(85);
+      myservo_Xizd.write(vel_right);                   
+      myservo_Xder.write(vel_right);
       nh.spinOnce();
     }
+    //Progressive brakes
+    for (int i = 1; i < 5; i++) {
+      vel = vel_right + i;
+      myservo_Xizd.write(vel);
+      myservo_Xder.write(vel);
+      delay(100);
+    }
   } else {
-      if  (error_X < -10.0) {
-        while (error_X < -10.0) {
+      if  (error_X < -15.0) {
+        while (error_X < -15.0) {
           //myservo_Xizd.write(MAX_dreta);                   
           //myservo_Xder.write(MAX_dreta);
-          myservo_Xizd.write(100);                   
-          myservo_Xder.write(100);
+          myservo_Xizd.write(vel_left);                   
+          myservo_Xder.write(vel_left);
           nh.spinOnce();
+        }
+        //Progressive brakes
+        for (int i = 1; i < 3; i++) {
+          vel = vel_left - i;
+          myservo_Xizd.write(vel);
+          myservo_Xder.write(vel);
+          delay(100);
         }
       }
   }  
@@ -95,19 +110,19 @@ void motion_X() {
 void motion_Y() {
     
   //Setting center zone as +/-5% relative error at the Y axis
-  if (error_Y < -10.0) {
-    while ((error_Y < -10.0) && (pos > pos_min)){
+  if (error_Y < -15.0) {
+    while ((error_Y < -15.0) && (pos > pos_min)){
       pos--;
       myservo_Y.write(pos);  //Facing up the camera
-      delay(100);      
+      delay(150);      
       nh.spinOnce();
     }
   } else {
-      if  (error_Y > 10.0) {
-        while ((error_Y > 10.0) && (pos < pos_max)) {
+      if  (error_Y > 15.0) {
+        while ((error_Y > 15.0) && (pos < pos_max)) {
           pos++;
           myservo_Y.write(pos);  //Facing down the camera
-          delay(100); 
+          delay(150); 
           nh.spinOnce();
         }
       }
@@ -126,6 +141,8 @@ void setup()
   
   myservo_Y.write(init_pos);  //Set CAM servo at the middle of its range position
   
+  delay(1000);  //Wait to estabilise
+  
   nh.initNode();            //Initialize ROS node handle, 
   
   nh.subscribe(sub_face);
@@ -140,5 +157,6 @@ void loop () {
 
   motion_X();
   motion_Y();  
+  delay(100);
 
 }
